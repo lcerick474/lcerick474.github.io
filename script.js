@@ -16,7 +16,7 @@ for (let i = 0; i < quantidade; i++) {
   particulas.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    vx: (Math.random() - 0.5) * 0.5, // era 1.5, muito mais lento
+    vx: (Math.random() - 0.5) * 0.5,
     vy: (Math.random() - 0.5) * 0.5,
     raio: Math.random() * 3 + 1,
   });
@@ -57,28 +57,91 @@ function animar() {
 
 animar();
 
-const links = document.querySelectorAll(".nav-links a");
+const navbar = document.querySelector(".navbar");
 
-links.forEach((link) => {
-  link.addEventListener("click", function (e) {
-    e.preventDefault();
-    const destino = document.querySelector(this.getAttribute("href"));
-    
-    document.body.style.opacity = "0";
-    document.body.style.transition = "opacity 0.3s ease";
+function mostrarSecao(id) {
+  const secaoAtual = document.querySelector(".pagina.ativa");
+  const proximaSecao = document.getElementById(id);
 
-    setTimeout(() => {
-      destino.scrollIntoView();
-      document.body.style.opacity = "1";
-    }, 300);
+  if (secaoAtual === proximaSecao) return;
+
+  if (secaoAtual) {
+    secaoAtual.classList.add("saindo");
+    setTimeout(() => secaoAtual.classList.remove("ativa", "saindo"), 400);
+  }
+
+  setTimeout(() => proximaSecao.classList.add("ativa"), 200);
+
+  if (id === "hero") {
+    navbar.classList.remove("visivel");
+  } else {
+    navbar.classList.add("visivel");
+  }
+
+  document.querySelectorAll(".navbar a").forEach(a => a.classList.remove("ativo"));
+  const linkAtivo = document.querySelector(`.navbar a[data-secao="${id}"]`);
+  if (linkAtivo) linkAtivo.classList.add("ativo");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("[onclick]").forEach((el) => {
+    const secao = el.getAttribute("onclick").match(/'(.+)'/)[1];
+    el.setAttribute("data-secao", secao); // salva a seção no elemento
+    el.removeAttribute("onclick");
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      mostrarSecao(secao);
+    });
   });
 });
 
-const menuBtn = document.querySelector(".menu-btn");
-const sidebar = document.querySelector(".sidebar");
-
-if (menuBtn && sidebar) {
-  menuBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("aberta");
+// Efeito blur contato
+document.querySelectorAll(".contato-links a").forEach(el => {
+  el.addEventListener("mouseenter", () => {
+    document.querySelector("#contato").classList.add("blur-ativo");
+    document.body.classList.add("blur-ativo-contato");
+    el.classList.add("em-foco");
   });
-}
+
+  el.addEventListener("mouseleave", () => {
+    document.querySelector("#contato").classList.remove("blur-ativo");
+    document.body.classList.remove("blur-ativo-contato");
+    el.classList.remove("em-foco");
+  });
+});
+
+// EmailJS
+(function(){
+  emailjs.init("4qjveRf92FVc4r2Si");
+})();
+
+document.getElementById("form-contato").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById("btn-enviar");
+  const status = document.getElementById("status");
+
+  btn.textContent = "Enviando...";
+  btn.disabled = true;
+
+  const params = {
+    nome: document.getElementById("nome").value,
+    email: document.getElementById("email").value,
+    mensagem: document.getElementById("mensagem").value,
+  };
+
+  emailjs.send("service_jtb3z7p", "template_miq5o52", params)
+    .then(() => {
+      status.textContent = "✅ Mensagem enviada com sucesso!";
+      status.style.color = "#a855f7";
+      document.getElementById("form-contato").reset();
+    })
+    .catch(() => {
+      status.textContent = "❌ Erro ao enviar. Tenta de novo!";
+      status.style.color = "#f87171";
+    })
+    .finally(() => {
+      btn.textContent = "Enviar mensagem";
+      btn.disabled = false;
+    });
+});

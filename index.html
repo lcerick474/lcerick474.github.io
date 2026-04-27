@@ -4,26 +4,217 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lucas Erick</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <canvas id="canvas"></canvas>
+    <nav class="navbar">
+      <img src="foto.jpg.jpeg" alt="Lucas Erick" class="foto-navbar" />
+      <a href="#" data-secao="hero" onclick="mostrarSecao('hero')">Início</a>
+      <a href="#" data-secao="sobre" onclick="mostrarSecao('sobre')">Sobre</a>
+      <a href="#" data-secao="habilidades" onclick="mostrarSecao('habilidades')"
+        >Habilidades</a
+      >
+      <a href="#" data-secao="projetos" onclick="mostrarSecao('projetos')"
+        >Projetos</a
+      >
+      <a href="#" data-secao="contato" onclick="mostrarSecao('contato')"
+        >Contato</a
+      >
+    </nav>
+    <div class="overlay"></div>
 
-    <section id="hero">
-      <div class="hero-container">
-        <div class="hero-esquerda">
-          <img src="foto.jpg.jpeg" alt="Foto de Lucas Erick" class="foto" />
-        </div>
-        <div class="hero-direita">
-          <h1>Lucas Erick</h1>
-          <h2>Desenvolvedor Front-end</h2>
-          <div class="links">
-            <a href="sobre.html">Sobre</a>
-            <a href="habilidades.html">Habilidades</a>
-            <a href="projetos.html">Projetos</a>
-            <a href="contato.html">Contato</a>
+    <section id="hero" class="pagina ativa">
+      <div class="hero">
+        <div class="hero-container">
+          <div class="hero-esquerda">
+            <img src="foto.jpg.jpeg" alt="Foto de Lucas Erick" class="foto" />
+          </div>
+          <div class="hero-direita">
+            <h1>Lucas Erick</h1>
+            <h2>Desenvolvedor Front-end</h2>
+            <div class="links">
+              <a href="#" onclick="mostrarSecao('sobre')">Sobre</a>
+              <a href="#" onclick="mostrarSecao('habilidades')">Habilidades</a>
+              <a href="#" onclick="mostrarSecao('projetos')">Projetos</a>
+              <a href="#" onclick="mostrarSecao('contato')">Contato</a>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="sobre" class="pagina">
+      <div class="container-sobre">
+        <h2>Sobre Mim</h2>
+        <div class="sobre-conteudo">
+          <div class="sobre-esquerda">
+            <img src="foto.jpg.jpeg" alt="Lucas Erick" class="foto-sobre" />
+            <div class="sobre-info">
+              <span>🎂 18 anos</span>
+              <span>📍 Fortaleza, CE</span>
+              <span>🎓 Técnico em ADS</span>
+              <span>💼 Front-end Dev</span>
+            </div>
+          </div>
+          <div class="sobre-direita">
+            <p>
+              Prazer, eu sou <strong>Lucas Erick Mendes Tavares</strong>. Sou
+              técnico em Análise e Desenvolvimento de Sistemas pelo Pronatec e
+              venho construindo minha trajetória na área de tecnologia com foco
+              em evolução constante.
+            </p>
+            <p>
+              Atualmente me especializando em
+              <strong>desenvolvimento front-end</strong>, utilizando HTML, CSS,
+              JavaScript e React para criar interfaces modernas e responsivas.
+            </p>
+            <p>
+              Tenho facilidade em aprender novas tecnologias, gosto de resolver
+              problemas e estou sempre em busca de desafios que me façam evoluir
+              como desenvolvedor.
+            </p>
+            <div class="sobre-tags">
+              <span>HTML</span>
+              <span>CSS</span>
+              <span>JavaScript</span>
+              <span>React</span>
+              <span>Git</span>
+              <span>Python</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="habilidades" class="pagina">
+      <h2>Habilidades</h2>
+      <div class="habilidades-categorias">
+        <div class="categoria">
+          <h3 class="categoria-titulo">Front-end</h3>
+          <div class="habilidades-grid">
+            <div class="habilidade" data-icone="html5">
+              <div class="habilidade-icone">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+                />
+              </div>
+              <span>HTML</span>
+            </div>
+            <div class="habilidade" data-icone="css3">
+              <div class="habilidade-icone">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+                />
+              </div>
+              <span>CSS</span>
+            </div>
+            <div class="habilidade" data-icone="javascript">
+              <div class="habilidade-icone">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                />
+              </div>
+              <span>JavaScript</span>
+            </div>
+            <div class="habilidade" data-icone="react">
+              <div class="habilidade-icone">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                />
+              </div>
+              <span>React</span>
+            </div>
+            <div class="habilidade" data-icone="typescript">
+              <div class="habilidade-icone">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+                />
+              </div>
+              <span>TypeScript</span>
+            </div>
+          </div>
+        </div>
+        <div class="categoria">
+          <h3 class="categoria-titulo">Ferramentas</h3>
+          <div class="habilidades-grid">
+            <div class="habilidade" data-icone="git">
+              <div class="habilidade-icone">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+                />
+              </div>
+              <span>Git</span>
+            </div>
+            <div class="habilidade" data-icone="github">
+              <div class="habilidade-icone">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+                />
+              </div>
+              <span>GitHub</span>
+            </div>
+            <div class="habilidade" data-icone="python">
+              <div class="habilidade-icone">
+                <img
+                  src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                />
+              </div>
+              <span>Python</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projetos" class="pagina">
+      <h2>Projetos</h2>
+      <div class="projetos-grid">
+        <div class="projeto">
+          <h3>Lista de Tarefas</h3>
+          <p>
+            Lista de tarefas com localStorage feita em HTML, CSS e JavaScript
+            puro.
+          </p>
+          <a
+            href="https://github.com/lcerick474/lista-de-tarefas"
+            target="_blank"
+            >Ver no GitHub</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="pagina">
+      <h2>Contato</h2>
+      <p>Manda uma mensagem diretamente para mim!</p>
+
+      <form
+        id="form-contato"
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          width: 100%;
+          max-width: 480px;
+        "
+      >
+        <input type="text" id="nome" placeholder="Seu nome" required />
+        <input type="email" id="email" placeholder="Seu email" required />
+        <textarea
+          id="mensagem"
+          placeholder="Sua mensagem"
+          rows="5"
+          required
+        ></textarea>
+        <button type="submit" id="btn-enviar">Enviar mensagem</button>
+        <p id="status" style="font-size: 14px; text-align: center"></p>
+      </form>
+
+      <div class="contato-links">
+        <a href="https://github.com/seuuser" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/in/seuuser" target="_blank">LinkedIn</a>
       </div>
     </section>
 
