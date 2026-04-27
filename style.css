@@ -9,7 +9,8 @@ body {
   color: #ffffff;
   font-family: system-ui, sans-serif;
   line-height: 1.6;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 #canvas {
@@ -43,6 +44,15 @@ section {
 }
 
 /* ── NAVBAR ── */
+.foto-navbar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #a855f7;
+  flex-shrink: 0;
+}
+
 .navbar {
   position: fixed;
   top: 0;
@@ -61,15 +71,6 @@ section {
 
 .navbar.visivel {
   display: flex;
-}
-
-.foto-navbar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #a855f7;
-  flex-shrink: 0;
 }
 
 .navbar a {
@@ -110,7 +111,7 @@ section {
   transform: scaleX(1);
 }
 
-/* ── OVERLAY — removido do blur, mantido para outros usos futuros ── */
+/* ── OVERLAY ── */
 .overlay {
   display: none;
 }
@@ -436,6 +437,7 @@ h2 {
   display: flex;
   justify-content: center;
   gap: 16px;
+  margin-top: 24px;
 }
 
 .contato-links a {
@@ -454,7 +456,6 @@ h2 {
 }
 
 /* ── EFEITO BLUR CONTATO ── */
-/* Quando hover ativo: tudo na seção fica borrado e escurecido */
 #contato.blur-ativo h2,
 #contato.blur-ativo > p,
 #contato.blur-ativo .contato-links a {
@@ -463,9 +464,22 @@ h2 {
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
+#contato.blur-ativo .contato-links a.em-foco {
+  filter: blur(0px);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+body.blur-ativo-contato .navbar {
+  filter: blur(4px);
+  opacity: 0.3;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* ── FORMULÁRIO CONTATO ── */
 #form-contato input,
 #form-contato textarea {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(168, 85, 247, 0.3);
   border-radius: 8px;
   padding: 12px 16px;
@@ -498,16 +512,142 @@ h2 {
   transform: translateY(-2px);
 }
 
-/* O link em foco fica nítido */
-#contato.blur-ativo .contato-links a.em-foco {
-  filter: blur(0px);
-  opacity: 1;
-  transform: translateY(-2px);
-}
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+  }
 
-#contato.blur-ativo ~ .navbar,
-body.blur-ativo-contato .navbar {
-  filter: blur(4px);
-  opacity: 0.3;
-  transition: filter 0.3s ease, opacity 0.3s ease;
+  .pagina {
+    display: none;
+    position: relative;
+    width: 100%;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .pagina.ativa {
+    display: flex;
+    animation: subirMobile 0.4s ease forwards;
+  }
+
+  .pagina.saindo {
+    display: none;
+  }
+
+    @keyframes subirMobile {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* NAVBAR */
+  .navbar {
+    padding: 10px 16px;
+    gap: 2px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .foto-navbar {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 4px;
+  }
+
+  .navbar a {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  /* HERO */
+  .hero-container {
+    flex-direction: column;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .hero-direita {
+    min-width: unset;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+  }
+
+  #hero h1 {
+    font-size: 28px;
+  }
+
+  #hero h2 {
+    font-size: 16px;
+  }
+
+  .foto {
+    width: 160px;
+    height: 160px;
+    margin-bottom: 0;
+  }
+
+  .links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .links a {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  /* SOBRE */
+  .sobre-conteudo {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .foto-sobre {
+    width: 140px;
+    height: 140px;
+  }
+
+  .sobre-tags {
+    justify-content: center;
+  }
+
+  /* HABILIDADES */
+  .habilidades-grid {
+    gap: 10px;
+  }
+
+  .habilidade {
+    width: 85px;
+    padding: 14px;
+  }
+
+  .habilidade-icone {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* PROJETOS */
+  .projetos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* CONTATO */
+  .contato-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
 }

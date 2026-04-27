@@ -62,6 +62,7 @@ const navbar = document.querySelector(".navbar");
 function mostrarSecao(id) {
   const secaoAtual = document.querySelector(".pagina.ativa");
   const proximaSecao = document.getElementById(id);
+  const isMobile = window.innerWidth <= 768;
 
   if (secaoAtual === proximaSecao) return;
 
@@ -70,7 +71,24 @@ function mostrarSecao(id) {
     setTimeout(() => secaoAtual.classList.remove("ativa", "saindo"), 400);
   }
 
-  setTimeout(() => proximaSecao.classList.add("ativa"), 200);
+  setTimeout(
+    () => {
+      proximaSecao.classList.add("ativa");
+
+      // stagger nos elementos
+      const elementos = proximaSecao.querySelectorAll(
+        "h2, .sobre-conteudo, .habilidades-categorias, .projetos-grid, .contato-links, #form-contato, .container-sobre",
+      );
+
+      elementos.forEach((el) => el.classList.remove("animar", "visivel"));
+
+      elementos.forEach((el, i) => {
+        el.classList.add("animar");
+        setTimeout(() => el.classList.add("visivel"), i * 150);
+      });
+    },
+    isMobile ? 0 : 200,
+  ); // no mobile não espera, anima na hora
 
   if (id === "hero") {
     navbar.classList.remove("visivel");
@@ -78,7 +96,9 @@ function mostrarSecao(id) {
     navbar.classList.add("visivel");
   }
 
-  document.querySelectorAll(".navbar a").forEach(a => a.classList.remove("ativo"));
+  document
+    .querySelectorAll(".navbar a")
+    .forEach((a) => a.classList.remove("ativo"));
   const linkAtivo = document.querySelector(`.navbar a[data-secao="${id}"]`);
   if (linkAtivo) linkAtivo.classList.add("ativo");
 }
@@ -96,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Efeito blur contato
-document.querySelectorAll(".contato-links a").forEach(el => {
+document.querySelectorAll(".contato-links a").forEach((el) => {
   el.addEventListener("mouseenter", () => {
     document.querySelector("#contato").classList.add("blur-ativo");
     document.body.classList.add("blur-ativo-contato");
@@ -111,37 +131,40 @@ document.querySelectorAll(".contato-links a").forEach(el => {
 });
 
 // EmailJS
-(function(){
+(function () {
   emailjs.init("4qjveRf92FVc4r2Si");
 })();
 
-document.getElementById("form-contato").addEventListener("submit", function(e) {
-  e.preventDefault();
+document
+  .getElementById("form-contato")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  const btn = document.getElementById("btn-enviar");
-  const status = document.getElementById("status");
+    const btn = document.getElementById("btn-enviar");
+    const status = document.getElementById("status");
 
-  btn.textContent = "Enviando...";
-  btn.disabled = true;
+    btn.textContent = "Enviando...";
+    btn.disabled = true;
 
-  const params = {
-    nome: document.getElementById("nome").value,
-    email: document.getElementById("email").value,
-    mensagem: document.getElementById("mensagem").value,
-  };
+    const params = {
+      nome: document.getElementById("nome").value,
+      email: document.getElementById("email").value,
+      mensagem: document.getElementById("mensagem").value,
+    };
 
-  emailjs.send("service_jtb3z7p", "template_miq5o52", params)
-    .then(() => {
-      status.textContent = "✅ Mensagem enviada com sucesso!";
-      status.style.color = "#a855f7";
-      document.getElementById("form-contato").reset();
-    })
-    .catch(() => {
-      status.textContent = "❌ Erro ao enviar. Tenta de novo!";
-      status.style.color = "#f87171";
-    })
-    .finally(() => {
-      btn.textContent = "Enviar mensagem";
-      btn.disabled = false;
-    });
-});
+    emailjs
+      .send("service_jtb3z7p", "template_miq5o52", params)
+      .then(() => {
+        status.textContent = "✅ Mensagem enviada com sucesso!";
+        status.style.color = "#a855f7";
+        document.getElementById("form-contato").reset();
+      })
+      .catch(() => {
+        status.textContent = "❌ Erro ao enviar. Tenta de novo!";
+        status.style.color = "#f87171";
+      })
+      .finally(() => {
+        btn.textContent = "Enviar mensagem";
+        btn.disabled = false;
+      });
+  });
